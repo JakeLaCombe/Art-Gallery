@@ -21,7 +21,9 @@ class Main extends AbstractApplication {
 
     this._scene.add(plane);
 
-    this.setupPlanes();
+    this.buildDisplayArea({x: -20, y: -20});
+    this.buildDisplayArea({x: 15, y: 15});
+    this.buildDisplayArea({x: 50, y: 50});
 
     var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
     var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true, side: THREE.DoubleSide});
@@ -53,9 +55,54 @@ class Main extends AbstractApplication {
     plane.rotation.x = 0;
     plane.position.x = 15;
     plane.position.y = 10;
-    plane.position.z = 0
+    plane.position.z = 0;
 
     this._scene.add(plane);
+  }
+
+  buildDisplayArea(position) {
+    for(let i = 0; i < 4; i++) {
+      var planeGeometry = new THREE.PlaneGeometry(30, 20, 0, 0);
+      var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc, side: THREE.DoubleSide});
+      var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
+      plane.rotation.y = i / 2 * Math.PI;
+
+      plane.position.y = 10;
+
+      switch(i)
+      {
+        case 0:
+          plane.position.x = position.x;
+          plane.position.z = position.y + 15;
+          break;
+        case 1:
+          plane.position.x = position.x + 15;
+          plane.position.z = position.y;
+          break;
+        case 2:
+          plane.position.x = position.x;
+          plane.position.z = position.y - 15;
+          break;
+        case 3:
+          plane.position.x = position.x - 15;
+          plane.position.z = position.y;
+          break;
+      }
+
+      this._scene.add(plane);
+    }
+
+    let roofPlaneGeometry = new THREE.PlaneGeometry(30, 30, 0, 0);
+    var roofMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc, side: THREE.DoubleSide});
+    var roofPlane = new THREE.Mesh(roofPlaneGeometry, roofMaterial);
+
+    roofPlane.position.y = 10;
+    roofPlane.position.x = position.x;
+    roofPlane.position.z = position.y;
+    roofPlane.rotation.x = Math.PI * 0.5;
+    this._scene.add(roofPlane);
+
   }
 }
 

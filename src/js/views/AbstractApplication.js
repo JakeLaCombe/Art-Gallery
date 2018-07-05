@@ -6,7 +6,7 @@ class AbstractApplication {
     this._camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000)
     this._camera.position.x = 40;
     this._camera.position.y = 10;
-    this._camera.position.z = 50;
+    this._camera.position.z = 75;
 
     this._scene = new THREE.Scene()
     this._camera.lookAt(this._scene.position);
