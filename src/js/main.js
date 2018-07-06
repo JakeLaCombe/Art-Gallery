@@ -7,9 +7,6 @@ class Main extends AbstractApplication {
   constructor () {
     super()
 
-    var axes = new THREE.AxisHelper( 20 );
-    this._scene.add(axes);
-
     var planeGeometry = new THREE.PlaneGeometry(150, 150, 1, 1);
 
     const texture = new THREE.TextureLoader().load('static/textures/wood5.png');
@@ -26,26 +23,9 @@ class Main extends AbstractApplication {
     this.buildDisplayArea({x: -20, y: -20});
     this.buildDisplayArea({x: 15, y: 15});
     this.buildDisplayArea({x: 50, y: 50});
+    this.loadArtWork('static/artwork/chucky.png', {x: -20, z: -4.9});
+    this.loadArtWork('static/artwork/final_hair_animation.gif', {x: -20, z: -70});
 
-    var cubeGeometry = new THREE.BoxGeometry(4, 4, 4)
-    var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true, side: THREE.DoubleSide});
-    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-    cube.position.x = -4;
-    cube.position.y = 3;
-    cube.position.z = 0;
-
-    this._scene.add(cube);
-
-    var sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
-    var sphereMaterial = new THREE.MeshBasicMaterial({color: 0x7777ff, wireframe: true});
-    var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-
-    sphere.position.x = 20;
-    sphere.position.y = 4;
-    sphere.position.z = 2;
-
-    this._scene.add(sphere);
     this.animate()
   }
 
@@ -65,7 +45,7 @@ class Main extends AbstractApplication {
   buildGalleryWalls() {
     for(let i = 0; i < 4; i++) {
       var planeGeometry = new THREE.PlaneGeometry(150, 20, 0, 0);
-      var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc, side: THREE.DoubleSide});
+      var planeMaterial = new THREE.MeshBasicMaterial({color: 0xf2f2f2, side: THREE.DoubleSide});
       var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
       plane.rotation.y = i / 2 * Math.PI;
@@ -99,7 +79,7 @@ class Main extends AbstractApplication {
   buildDisplayArea(position) {
     for(let i = 0; i < 4; i++) {
       var planeGeometry = new THREE.PlaneGeometry(30, 20, 0, 0);
-      var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc, side: THREE.DoubleSide});
+      var planeMaterial = new THREE.MeshBasicMaterial({color: 0xf2f2f2, side: THREE.DoubleSide});
       var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 
       plane.rotation.y = i / 2 * Math.PI;
@@ -139,6 +119,35 @@ class Main extends AbstractApplication {
     roofPlane.rotation.x = Math.PI * 0.5;
     this._scene.add(roofPlane);
 
+  }
+
+  loadArtWork(source, position) {
+    var artwork = new Image();
+		var ratiow = 0;
+		var ratioh = 0;
+
+		var source = source;
+		artwork.src = source;
+
+    var texture = THREE.ImageUtils.loadTexture(artwork.src);
+    texture.minFilter = THREE.LinearFilter;
+		var img = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+
+    artwork.onload = () => {
+			ratiow = artwork.width/15;
+			ratioh = artwork.height/15;
+			// plane for artwork
+			let plane = new THREE.Mesh(new THREE.PlaneGeometry(ratiow, ratioh),img); //width, height
+			plane.overdraw = true;
+                  //-1 because index is 0 - n-1 but num of paintings is n
+		  plane.position.x = position.x;
+      plane.position.y = 10;
+      plane.position.z = position.z;
+
+			this._scene.add(plane);
+		}
+
+		img.map.needsUpdate = true; //ADDED
   }
 }
 
