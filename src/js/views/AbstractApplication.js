@@ -2,10 +2,10 @@ import * as THREE from 'three'
 import 'three/examples/js/controls/FirstPersonControls'
 
 const boundaries = {
-  left: -140,
-  right: 140,
-  up: 140,
-  down: -140,
+  left: -90,
+  right: 90,
+  up: 90,
+  down: -90,
 };
 
 class AbstractApplication {
