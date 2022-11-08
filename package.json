@@ -35,7 +35,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "glslify": "^6.1.0",
     "glslify-loader": "^1.0.2",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^5.5.0",
     "ify-loader": "^1.0.4",
     "json-loader": "^0.5.4",
     "node-notifier": "^5.1.2",
